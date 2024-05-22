@@ -1,4 +1,4 @@
--- DATA CLEANING
+-- DATA CLEANING (Step 1 of data cleaning)
 
 SELECT *
 FROM layoffs;

@@ -1,9 +1,9 @@
--- DATA CLEANING
+-- DATA CLEANING Project
 
 SELECT *
 FROM layoffs;
 
--- steps: 
+-- Steps taken in this project:
 -- 1. Remove Duplicates
 -- 2. Standardize the data
 -- 3. Null Values or blank values
@@ -21,7 +21,7 @@ INSERT layoffs_staging
 SELECT *
 FROM layoffs;
 
--- Step 1: Identify duplicates. -- do row_number, if row_num has 2 or above that means it has duplicates
+-- Step 1: Identify duplicates. - do row_number, if row_num has 2 or above that means it has duplicates
 
 SELECT *, 
 ROW_NUMBER() OVER ( PARTITION BY company, industry, total_laid_off, percentage_laid_off, `date`) AS row_num
@@ -39,7 +39,7 @@ WHERE row_num > 1;
 
 SELECT *
 FROM layoffs_staging
-WHERE company = 'Casper'; -- to check if query worked
+WHERE company = 'Casper'; -- checking to see if query worked
 
 -- make a staging 2 database to delete the duplicates - right click layoff_staging > copy to clipboard > create statement > paste > add row_num INT
 
@@ -72,10 +72,10 @@ DELETE -- to delete duplicates
 FROM layoffs_staging2
 WHERE row_num >1;
 
-SELECT * -- checkign again
+SELECT * -- checking again
 FROM layoffs_staging2;
 
--- Step2: Standardizing data ( spacing, naming, time series,
+-- Step2: Standardizing data ( spacing, naming, time series)
 
 SELECT company, TRIM(company)
 FROM layoffs_staging2;
@@ -147,13 +147,13 @@ MODIFY COLUMN `date` DATE;
 
 -- Step 3. WORKING WITH NULLS and blank values
 
--- total_laid_off column
+-- working with total_laid_off column
 
 SELECT *
 FROM layoffs_staging2
 WHERE total_laid_off IS NULL AND percentage_laid_off IS NULL;
 
--- industry
+-- working with industry
 
 UPDATE layoffs_staging2 -- first setting industry to NULL where there are blanks
 SET industry = NULL
@@ -165,7 +165,7 @@ SELECT *
 FROM layoffs_staging2
 WHERE industry IS NULL OR industry = '';
 
-SELECT * -- checking Airbnb to see if there are others
+SELECT * -- checking Airbnb to see if there are others instances of Airbnb
 FROM layoffs_staging2
 WHERE company = 'Airbnb';
 
@@ -184,13 +184,11 @@ SET t1.industry = t2.industry
 WHERE t1.industry IS NULL
 AND t2.industry IS NOT NULL;
 
--- Bally's is still NULL but leave it because there is only 1 
-
 SELECT * -- checking Ballys to see if there are others
 FROM layoffs_staging2
 WHERE company LIKE 'Bally%';
 
--- Step4. Remove columns and rows that we dont need, based on what we are trying to do with the data in the future. in this case we cant do anything if total laid off and % laid off is not available
+-- Step4. Remove columns and rows that we dont need, based on what we are trying to do with the data in the future. In this case we cant do anything if total laid off and % laid off is not available
 
 SELECT * 
 FROM layoffs_staging2

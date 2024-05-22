@@ -63,7 +63,7 @@ ORDER BY `Month` ASC;
 
 WITH Rolling_total AS
 (
-SELECT SUBSTRING(`date`,1,7) AS `Month`, SUM(total_laid_off) AS total_off -- Rolling total calc using CTE
+SELECT SUBSTRING(`date`,1,7) AS `Month`, SUM(total_laid_off) AS total_off -- Rolling total calculation using CTE
 FROM layoffs_staging2
 WHERE SUBSTRING(`date`,1,7) IS NOT NULL
 GROUP BY `Month`
@@ -100,95 +100,6 @@ WHERE Years IS NOT NULL
 SELECT *
 FROM company_year_rank
 WHERE Ranking <=5;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
